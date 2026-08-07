@@ -6,7 +6,7 @@ OpenTofu / Terraform module that runs **board SDLC** on one GitHub Project item:
 
 Evidence lands as structured **issue comments**. The agent may open a PR; **humans merge**.
 
-This is the **easy path**. For why the pieces exist (webhooks vs card drag vs PR merge, `-F` vs `-f`, HITL), read [Aiden the Hard Way](https://productionnotes.dev/blog/from-vague-github-issue-to-pr-with-aiden/).
+This is the **easy path**. Adoption walkthrough: [Aiden the Easy Way](https://productionnotes.dev/blog/aiden-the-easy-way/). For why the pieces exist (webhooks vs card drag vs PR merge, `-F` vs `-f`, HITL), read [Aiden the Hard Way](https://productionnotes.dev/blog/from-vague-github-issue-to-pr-with-aiden/).
 
 Derived from StackGen AIOS packaging; published here as a **community / personal** surface under [`sks`](https://github.com/sks). Not an official StackGen product repo.
 
