@@ -1,0 +1,9 @@
+stackgen_url        = "https://ai.dev.stackgen.com"
+stackgen_token      = "sg_..."
+stackgen_project_id = "your-org-or-project-id"
+
+openai_api_key = "sk-..."
+github_token   = "ghp_..."
+
+default_project_url = "https://github.com/users/YOU/projects/1"
+webhook_repository_full_names = ["YOU/your-repo"]
