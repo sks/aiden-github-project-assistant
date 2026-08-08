@@ -1,22 +1,36 @@
 output "agent_name" {
-  value = module.github_project_assistant.agent_name
+  value = module.linear_board_assistant.agent_name
 }
 
 output "workflow_name" {
-  value = module.github_project_assistant.workflow_name
+  value = module.linear_board_assistant.workflow_name
 }
 
-output "webhook_ingress_payload_url" {
-  value     = module.github_project_assistant.webhook_ingress_payload_url
+output "linear_integration_name" {
+  value = module.linear_board_assistant.linear_integration_name
+}
+
+output "linear_webhook_ingress_payload_url" {
+  value     = module.linear_board_assistant.linear_webhook_ingress_payload_url
   sensitive = true
 }
 
-output "webhook_token" {
-  value     = module.github_project_assistant.webhook_token
+output "linear_webhook_token" {
+  value     = module.linear_board_assistant.linear_webhook_token
   sensitive = true
 }
 
-output "pr_webhook_ingress_payload_url" {
-  value     = module.github_project_assistant.pr_webhook_ingress_payload_url
+output "github_webhook_ingress_payload_url" {
+  value     = module.linear_board_assistant.github_webhook_ingress_payload_url
+  sensitive = true
+}
+
+output "linear_pr_webhook_ingress_payload_url" {
+  value     = module.linear_board_assistant.linear_pr_webhook_ingress_payload_url
+  sensitive = true
+}
+
+output "github_pr_webhook_ingress_payload_url" {
+  value     = module.linear_board_assistant.github_pr_webhook_ingress_payload_url
   sensitive = true
 }

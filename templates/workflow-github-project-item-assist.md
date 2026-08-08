@@ -1,1 +1,1 @@
-GitHub Project board SDLC: Specify → Research → Plan (optional chain + Status hops), comments on the issue, optional GitHub PR after Plan, then Done when that PR merges (PR webhook / status poll). Status poll also covers column-drag because Issues webhooks do not fire on Projects v2 Status changes.
+Tracker-neutral board SDLC through the GitHub Projects adapter: issue comments are durable receipts and Project Status is the stage. Supports Specify → Research → Plan, an optional review PR, and Done after a verified human merge. Slack is notify-only.

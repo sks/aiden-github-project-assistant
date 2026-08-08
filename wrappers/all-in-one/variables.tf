@@ -4,10 +4,17 @@ variable "openai_api_key" {
   sensitive   = true
 }
 
-variable "github_token" {
-  description = "GitHub PAT with repo + Projects v2 scopes (read:project, project)."
+variable "linear_api_key" {
+  description = "Linear personal API key (lin_api_…). Provisions the Linear integration (board of truth)."
   type        = string
   sensitive   = true
+}
+
+variable "github_token" {
+  description = "GitHub PAT with `repo` scope for Research + implement PRs. Required when enable_github or enable_implement is true."
+  type        = string
+  sensitive   = true
+  default     = ""
 }
 
 variable "model_name" {
@@ -16,45 +23,100 @@ variable "model_name" {
   default     = "gpt-5.4-2026-03-05"
 }
 
-variable "default_project_url" {
-  description = "GitHub Projects v2 URL used for webhook / status-poll runs."
+variable "model_id" {
+  description = "Underlying provider model id. Defaults to model_name when empty."
+  type        = string
+  default     = ""
+}
+
+variable "default_team_key" {
+  description = "Linear team key used for webhook / poll runs, e.g. CORE or SKS."
   type        = string
 }
 
-variable "webhook_repository_full_names" {
-  description = "Optional allowlist of owner/name repositories for webhook runs."
-  type        = list(string)
-  default     = []
+variable "default_project_url" {
+  description = "GitHub Projects v2 URL for the GitHub Projects adapter."
+  type        = string
+  default     = ""
 }
 
-variable "enable_github_webhook" {
-  description = "Create the Issues webhook ingress."
+variable "linear_trigger_label" {
+  description = "Optional Linear label that gates webhook runs (empty = any issue on the team)."
+  type        = string
+  default     = ""
+}
+
+variable "enable_slack_notify" {
+  description = "Post a short stage receipt to Slack after each stage."
+  type        = bool
+  default     = false
+}
+
+variable "slack_bot_token" {
+  description = "Slack Bot Token (xoxb-…). Required when enable_slack_notify is true and no shared Slack integration exists."
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "slack_notify_channel" {
+  description = "Slack channel name or ID for stage receipts (e.g. #aiden-sdlc)."
+  type        = string
+  default     = ""
+}
+
+variable "enable_github" {
+  description = "Attach a GitHub integration for Research (repo APIs). Implied true when enable_implement is true."
   type        = bool
   default     = true
 }
 
+variable "webhook_repository_full_names" {
+  description = "Optional allowlist of owner/name repositories for the PR-merge webhook."
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_linear_webhook" {
+  description = "Create the Linear Issue create/update webhook ingress."
+  type        = bool
+  default     = true
+}
+
+variable "enable_github_webhook" {
+  description = "Create the GitHub Issues webhook for the GitHub Projects adapter."
+  type        = bool
+  default     = false
+}
+
 variable "enable_implement" {
-  description = "After Plan, open a review PR (never merge)."
+  description = "After Plan, open a review PR on GitHub (never merge)."
   type        = bool
   default     = true
 }
 
 variable "enable_pr_merged_webhook" {
-  description = "Create PR-merge webhook so Status hops to Done after human merge."
+  description = "Create the PR-merge webhook so the Linear state hops to Done after a human merge."
   type        = bool
   default     = true
 }
 
 variable "enable_status_poll_schedule" {
-  description = "Poll the Project for card drags / missed PR events."
+  description = "GitHub Projects poll for card drags and missed PR events."
   type        = bool
-  default     = true
+  default     = false
+}
+
+variable "enable_linear_merge_poll_schedule" {
+  description = "Linear fallback poll for a missed PR-merge webhook."
+  type        = bool
+  default     = false
 }
 
 variable "status_poll_cron" {
-  description = "Five-field cron (UTC) for the status poll."
+  description = "Five-field cron (UTC) for the fallback poll."
   type        = string
-  default     = "*/5 * * * *"
+  default     = "*/15 * * * *"
 }
 
 variable "webhook_trigger_base_url" {
