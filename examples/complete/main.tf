@@ -12,13 +12,15 @@ module "linear_board_assistant" {
   model_id   = var.model_id
 
   default_team_key              = var.default_team_key
+  default_project_url           = var.default_project_url
   linear_trigger_label          = var.linear_trigger_label
   webhook_repository_full_names = var.webhook_repository_full_names
 
   enable_linear_webhook       = true
+  enable_github_webhook       = true
   enable_implement            = true
   enable_pr_merged_webhook    = true
-  enable_status_poll_schedule = false
+  enable_status_poll_schedule = true
 
   enable_slack_notify  = var.enable_slack_notify
   slack_bot_token      = var.slack_bot_token

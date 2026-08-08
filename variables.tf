@@ -17,7 +17,7 @@ variable "policy_ids" {
 }
 
 # ---------------------------------------------------------------------------
-# Linear integration (board of truth: state + comments)
+# Linear tracker adapter (workflow state + comments)
 # ---------------------------------------------------------------------------
 
 variable "existing_linear_integration_name" {
@@ -116,7 +116,23 @@ variable "enable_github" {
 }
 
 # ---------------------------------------------------------------------------
-# Board mapping + behavior
+# GitHub Projects tracker adapter
+# ---------------------------------------------------------------------------
+
+variable "enable_github_webhook" {
+  description = "Create the GitHub Issues webhook that drives the GitHub Projects adapter."
+  type        = bool
+  default     = false
+}
+
+variable "default_project_url" {
+  description = "GitHub Projects v2 URL used by webhook/status-poll runs. Required when enable_github_webhook is true."
+  type        = string
+  default     = ""
+}
+
+# ---------------------------------------------------------------------------
+# Shared stage mapping + behavior
 # ---------------------------------------------------------------------------
 
 variable "default_team_key" {
@@ -130,9 +146,9 @@ variable "default_team_key" {
 
 variable "stage_names" {
   description = <<-EOT
-    Map of logical stage keys to Linear workflow **state names**. Defaults match
-    Specify → Research → Plan → Done. Create these workflow states on the Linear
-    team before enabling the webhook.
+    Map of stable SDLC stages to tracker stage names. For GitHub Projects these
+    are Status option names; for Linear they are workflow state names. Deploy
+    separate module instances when trackers use different names.
   EOT
   type = object({
     specify  = string
@@ -159,7 +175,7 @@ variable "linear_trigger_label" {
 }
 
 variable "webhook_auto_advance" {
-  description = "When true, webhook-triggered runs hop the Linear state one step after a successful stage."
+  description = "When true, webhook-triggered runs move the selected tracker one stage after successful work."
   type        = bool
   default     = true
 }
@@ -178,8 +194,8 @@ variable "enable_implement" {
   description = <<-EOT
     When true, after a successful Plan stage the agent implements via GitHub
     APIs (branch + commits + `gh pr create`) and posts the PR URL as a Linear
-    comment. Leave the Linear state on Plan until the human merges; then Done
-    completion (PR webhook / poll) hops to `stage_names.done`.
+    comment on the selected tracker. Leave its stage on Plan until the human
+    merges; then Done completion hops to `stage_names.done`.
   EOT
   type        = bool
   default     = false
@@ -208,8 +224,8 @@ variable "webhook_token_rotation" {
 variable "enable_pr_merged_webhook" {
   description = <<-EOT
     When true (and enable_implement), creates a second sg_webhook for GitHub
-    pull_request closed/merged events that runs Done completion: hop the Linear
-    state to `stage_names.done`, comment the receipt on the Linear issue.
+    pull_request closed/merged events that run adapter-specific Done completion.
+    When both trackers are enabled, register both adapter PR ingress URLs.
   EOT
   type        = bool
   default     = true
@@ -227,7 +243,13 @@ variable "webhook_repository_full_names" {
 # ---------------------------------------------------------------------------
 
 variable "enable_status_poll_schedule" {
-  description = "When true, creates a cron schedule that scans the Linear team for Plan issues whose Aiden PR is already merged but not yet marked Done. Fallback only."
+  description = "GitHub Projects adapter poll for card drags and missed PR events (v0.1-compatible behavior)."
+  type        = bool
+  default     = false
+}
+
+variable "enable_linear_merge_poll_schedule" {
+  description = "Linear adapter fallback poll for a missed GitHub PR-merge event. Linear board motion itself is webhook-driven."
   type        = bool
   default     = false
 }
@@ -266,7 +288,7 @@ variable "name_suffix" {
 }
 
 variable "agent_budget" {
-  description = "Daily USD budget for the linear-board-assistant agent."
+  description = "Daily USD budget for the tracker-agnostic board-sdlc-assistant agent."
   type        = number
   default     = 8
 }

@@ -37,6 +37,11 @@ variable "default_team_key" {
   description = "Linear team key, e.g. SKS"
 }
 
+variable "default_project_url" {
+  type        = string
+  description = "GitHub Projects v2 URL for the GitHub Projects adapter."
+}
+
 variable "model_name" {
   type        = string
   description = "Registered model name for the agent."

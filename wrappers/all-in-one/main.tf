@@ -1,6 +1,5 @@
-# Convenience wrapper: OpenAI model stack + Linear + optional Slack + optional GitHub,
-# then the Linear board assistant. Prefer the repo root module once you already have
-# foundation + integrations.
+# Convenience wrapper: OpenAI + GitHub Projects + Linear + optional Slack,
+# all attached to one tracker-agnostic Board SDLC agent.
 
 locals {
   suffix          = trimspace(var.name_suffix) == "" ? "" : "-${trimspace(var.name_suffix)}"
@@ -10,7 +9,7 @@ locals {
 
 resource "sg_secret" "openai" {
   name        = "aiden-lba-openai-vault${local.suffix}"
-  description = "OpenAI API key for Linear Board Assistant demo"
+  description = "OpenAI API key for Board SDLC Assistant demo"
   category    = "LLM"
   subcategory = "openai"
   metadata = {
@@ -49,7 +48,7 @@ module "assistant" {
 
   model_names = [sg_guild_model.primary.name]
 
-  # Linear (board of truth) — provisioned from an inline api key here.
+  # Linear tracker adapter
   linear_api_key = var.linear_api_key
 
   # Slack (notify only)
@@ -57,19 +56,22 @@ module "assistant" {
   slack_bot_token      = local.provision_slack ? var.slack_bot_token : ""
   slack_notify_channel = var.slack_notify_channel
 
-  # GitHub (Research + optional implement PR)
+  # GitHub Projects tracker + repository/PR adapter
   enable_github    = local.want_github
   github_secret_id = local.want_github ? sg_secret.github[0].id : ""
 
   default_team_key              = var.default_team_key
+  default_project_url           = var.default_project_url
   linear_trigger_label          = var.linear_trigger_label
   webhook_repository_full_names = var.webhook_repository_full_names
 
-  enable_linear_webhook       = var.enable_linear_webhook
-  enable_implement            = var.enable_implement
-  enable_pr_merged_webhook    = var.enable_pr_merged_webhook
-  enable_status_poll_schedule = var.enable_status_poll_schedule
-  status_poll_cron            = var.status_poll_cron
+  enable_linear_webhook             = var.enable_linear_webhook
+  enable_github_webhook             = var.enable_github_webhook
+  enable_implement                  = var.enable_implement
+  enable_pr_merged_webhook          = var.enable_pr_merged_webhook
+  enable_status_poll_schedule       = var.enable_status_poll_schedule
+  enable_linear_merge_poll_schedule = var.enable_linear_merge_poll_schedule
+  status_poll_cron                  = var.status_poll_cron
 
   webhook_auto_advance     = true
   sdlc_chain               = true

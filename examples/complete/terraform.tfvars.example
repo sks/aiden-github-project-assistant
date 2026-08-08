@@ -7,6 +7,7 @@ linear_api_key = "lin_api_..."
 github_token   = "ghp_..." # repo scope; needed for Research + implement PRs
 
 default_team_key     = "SKS"
+default_project_url  = "https://github.com/users/YOU/projects/1"
 linear_trigger_label = "" # e.g. "aiden" to gate runs to labelled issues
 
 # Slack notify (optional). Leave disabled if you do not have a bot token yet.

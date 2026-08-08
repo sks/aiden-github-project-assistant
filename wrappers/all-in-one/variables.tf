@@ -34,6 +34,12 @@ variable "default_team_key" {
   type        = string
 }
 
+variable "default_project_url" {
+  description = "GitHub Projects v2 URL for the GitHub Projects adapter."
+  type        = string
+  default     = ""
+}
+
 variable "linear_trigger_label" {
   description = "Optional Linear label that gates webhook runs (empty = any issue on the team)."
   type        = string
@@ -77,6 +83,12 @@ variable "enable_linear_webhook" {
   default     = true
 }
 
+variable "enable_github_webhook" {
+  description = "Create the GitHub Issues webhook for the GitHub Projects adapter."
+  type        = bool
+  default     = false
+}
+
 variable "enable_implement" {
   description = "After Plan, open a review PR on GitHub (never merge)."
   type        = bool
@@ -90,7 +102,13 @@ variable "enable_pr_merged_webhook" {
 }
 
 variable "enable_status_poll_schedule" {
-  description = "Fallback poll for a missed PR-merge webhook."
+  description = "GitHub Projects poll for card drags and missed PR events."
+  type        = bool
+  default     = false
+}
+
+variable "enable_linear_merge_poll_schedule" {
+  description = "Linear fallback poll for a missed PR-merge webhook."
   type        = bool
   default     = false
 }

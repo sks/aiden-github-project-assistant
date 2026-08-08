@@ -32,6 +32,21 @@ output "linear_webhook_ingress_payload_url" {
   sensitive = true
 }
 
+output "github_webhook_ingress_payload_url" {
+  value     = module.assistant.github_webhook_ingress_payload_url
+  sensitive = true
+}
+
+output "linear_pr_webhook_ingress_payload_url" {
+  value     = module.assistant.linear_pr_webhook_ingress_payload_url
+  sensitive = true
+}
+
+output "github_pr_webhook_ingress_payload_url" {
+  value     = module.assistant.github_pr_webhook_ingress_payload_url
+  sensitive = true
+}
+
 output "pr_webhook_token" {
   value     = module.assistant.pr_webhook_token
   sensitive = true
