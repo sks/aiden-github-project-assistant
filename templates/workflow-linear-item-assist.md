@@ -1,0 +1,1 @@
+Linear board SDLC: Specify → Research → Plan (optional chain + workflow-state hops), comments on the Linear issue, optional GitHub PR after Plan, then Done when that PR merges (PR webhook / merge poll). Linear state changes fire webhooks, so board motion is event-driven; Slack is notify-only. GitHub is used for Research and the optional implement PR.

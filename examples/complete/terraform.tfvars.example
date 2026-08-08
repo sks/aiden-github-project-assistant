@@ -1,9 +1,17 @@
 stackgen_url        = "https://ai.dev.stackgen.com"
-stackgen_token      = "sg_..."
+stackgen_token      = "stackgen_..."
 stackgen_project_id = "your-org-or-project-id"
 
 openai_api_key = "sk-..."
-github_token   = "ghp_..."
+linear_api_key = "lin_api_..."
+github_token   = "ghp_..." # repo scope; needed for Research + implement PRs
 
-default_project_url = "https://github.com/users/YOU/projects/1"
+default_team_key     = "SKS"
+linear_trigger_label = "" # e.g. "aiden" to gate runs to labelled issues
+
+# Slack notify (optional). Leave disabled if you do not have a bot token yet.
+enable_slack_notify  = false
+slack_bot_token      = "" # xoxb-...
+slack_notify_channel = "" # e.g. #aiden-sdlc
+
 webhook_repository_full_names = ["YOU/your-repo"]

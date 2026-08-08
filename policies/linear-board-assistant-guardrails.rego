@@ -8,7 +8,8 @@ tool_name := input.tool.name
 
 # Destructive shell and merge/CI remain HITL. `gh pr create` is allowed when
 # enable_implement is on (runbook-gated); keep it ungated here so SDLC can open PRs.
-# create_agent is allowed (ReAcTree); do not gate it here.
+# Linear comment/state updates and Slack notifications are allowed (board of truth
+# + notify). create_agent is allowed (ReAcTree); do not gate it here.
 approval_required if {
 	contains(tool_name, "_execute_command")
 	cmd := lower(input.tool.arguments.command)
@@ -37,6 +38,6 @@ destructive_patterns := {
 	"gh workflow run",
 }
 
-approval_reason := "github-project-assistant guardrails: destructive or merge/CI command requires human approval" if {
+approval_reason := "linear-board-assistant guardrails: destructive or merge/CI command requires human approval" if {
 	approval_required
 }

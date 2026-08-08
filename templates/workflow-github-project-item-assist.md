@@ -1,1 +1,0 @@
-GitHub Project board SDLC: Specify → Research → Plan (optional chain + Status hops), comments on the issue, optional GitHub PR after Plan, then Done when that PR merges (PR webhook / status poll). Status poll also covers column-drag because Issues webhooks do not fire on Projects v2 Status changes.
